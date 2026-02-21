@@ -6,7 +6,6 @@
 [![codecov](https://codecov.io/gh/RumenDamyanov/rust-sudoku/graph/badge.svg)](https://codecov.io/gh/RumenDamyanov/rust-sudoku)
 [![crates.io](https://img.shields.io/crates/v/rumenx-sudoku.svg)](https://crates.io/crates/rumenx-sudoku)
 [![docs.rs](https://docs.rs/rumenx-sudoku/badge.svg)](https://docs.rs/rumenx-sudoku)
-[![codecov](https://codecov.io/gh/rumendamyanov/rust-sudoku/graph/badge.svg)](https://codecov.io/gh/rumendamyanov/rust-sudoku)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/rumendamyanov/rust-sudoku/blob/master/LICENSE.md)
 
 Fast, dependency-light Sudoku generator & solver for Rust — classic 9×9 plus configurable smaller grids — with guaranteed unique puzzles, deterministic seeding, CLI, and REST server.
