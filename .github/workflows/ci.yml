@@ -1,0 +1,93 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check:
+    name: Check, Lint, Test & Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Format check
+        run: cargo fmt --all -- --check
+
+      - name: Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Install cargo-tarpaulin
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-tarpaulin
+
+      - name: Tests with coverage
+        run: cargo tarpaulin --all-features --out xml --output-dir coverage/
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage/cobertura.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install cargo-audit
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-audit
+
+      - name: Audit
+        run: cargo audit
+
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t rust-sudoku .
+
+      - name: Check image size
+        run: |
+          SIZE_BYTES=$(docker image inspect rust-sudoku --format '{{.Size}}')
+          SIZE_MB=$(echo "scale=2; $SIZE_BYTES / 1048576" | bc)
+          echo "Image size: ${SIZE_MB} MB"
+          # Fail if larger than 30 MB
+          if [ "$(echo "$SIZE_BYTES > 31457280" | bc)" -eq 1 ]; then
+            echo "::error::Docker image exceeds 30 MB limit (${SIZE_MB} MB)"
+            exit 1
+          fi
+
+      - name: Smoke test container
+        run: |
+          docker run -d --name rust-sudoku-ci -p 8080:8080 rust-sudoku
+          sleep 3
+          STATUS=$(curl -sf http://localhost:8080/healthz | grep -o '"status":"ok"' || true)
+          docker stop rust-sudoku-ci
+          if [ -z "$STATUS" ]; then
+            echo "::error::Health check failed"
+            exit 1
+          fi
