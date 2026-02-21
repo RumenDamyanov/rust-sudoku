@@ -7,7 +7,7 @@ WORKDIR /app
 RUN apk add --no-cache musl-dev
 
 # Cache deps
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml ./
 RUN mkdir src && echo 'fn main() {}' > src/main.rs && \
     mkdir -p src/bin && echo 'fn main() {}' > src/bin/server.rs && \
     cargo build --release --features server --bin sudoku-server 2>/dev/null || true && \
