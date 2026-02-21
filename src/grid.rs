@@ -330,7 +330,9 @@ mod tests {
             }
             let puz = puz.unwrap_or_else(|| panic!("generate failed for size {size}"));
             assert!(puz.validate().is_ok());
-            let (r, c, v) = puz.hint().unwrap_or_else(|| panic!("hint failed for size {size}"));
+            let (r, c, v) = puz
+                .hint()
+                .unwrap_or_else(|| panic!("hint failed for size {size}"));
             assert!(r < size && c < size && v >= 1);
         }
     }
