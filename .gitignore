@@ -1,0 +1,20 @@
+# Build artifacts
+/target/
+Cargo.lock
+
+# IDE
+.idea/
+.vscode/
+.cursor/
+.ai/
+.zed/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+*.profraw
+*.profdata
+tarpaulin-report.html
+coverage/
