@@ -40,7 +40,7 @@ jobs:
         run: cargo tarpaulin --all-features --out xml --output-dir coverage/
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           files: coverage/cobertura.xml
           token: ${{ secrets.CODECOV_TOKEN }}
