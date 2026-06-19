@@ -35,7 +35,7 @@ serde_json = "1"
 clap = { version = "4", features = ["derive"], optional = true }
 axum = { version = "0.8", optional = true }
 tokio = { version = "1", features = ["full"], optional = true }
-tower-http = { version = "0.6", features = ["set-header"], optional = true }
+tower-http = { version = "0.7", features = ["set-header"], optional = true }
 tracing = { version = "0.1", optional = true }
 tracing-subscriber = { version = "0.3", optional = true }
 
@@ -58,6 +58,6 @@ required-features = ["server"]
 tokio = { version = "1", features = ["full"] }
 axum = "0.8"
 tower = { version = "0.5", features = ["util"] }
-tower-http = { version = "0.6", features = ["set-header"] }
+tower-http = { version = "0.7", features = ["set-header"] }
 http-body-util = "0.1"
 hyper = "1"
