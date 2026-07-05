@@ -78,7 +78,7 @@ impl std::str::FromStr for Difficulty {
 
 std::thread_local! {
     static GLOBAL_RNG: std::cell::RefCell<StdRng> = std::cell::RefCell::new(
-        StdRng::from_os_rng()
+        rand::make_rng()
     );
 }
 
