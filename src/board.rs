@@ -140,9 +140,9 @@ impl Board {
         for br in (0..9).step_by(3) {
             for bc in (0..9).step_by(3) {
                 let mut seen = [false; 10];
-                for r in br..br + 3 {
-                    for c in bc..bc + 3 {
-                        let v = self.0[r][c] as usize;
+                for row in self.0.iter().skip(br).take(3) {
+                    for &cell in row.iter().skip(bc).take(3) {
+                        let v = cell as usize;
                         if v != 0 {
                             if seen[v] {
                                 return Err(SudokuError::InvalidBoard);
@@ -231,9 +231,8 @@ impl Board {
 impl fmt::Display for Board {
     /// Returns 81-char representation, `'0'` for empty.
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        for r in 0..9 {
-            for c in 0..9 {
-                let v = self.0[r][c];
+        for row in &self.0 {
+            for &v in row {
                 write!(f, "{}", v)?;
             }
         }
@@ -264,9 +263,9 @@ fn backtrack_board(b: &mut Board) -> bool {
 }
 
 fn find_empty_board(b: &Board) -> Option<(usize, usize)> {
-    for r in 0..9 {
-        for c in 0..9 {
-            if b.0[r][c] == 0 {
+    for (r, row) in b.0.iter().enumerate() {
+        for (c, &cell) in row.iter().enumerate() {
+            if cell == 0 {
                 return Some((r, c));
             }
         }
@@ -384,8 +383,8 @@ mod tests {
     fn test_solve_unsolvable() {
         // Row 0 has 1..8, col 0 has 9 → no legal move at (0,0)
         let mut b = Board::new();
-        for c in 1..9 {
-            b.0[0][c] = c as u8; // 1..8
+        for (c, cell) in b.0[0].iter_mut().enumerate().skip(1) {
+            *cell = c as u8; // 1..8
         }
         b.0[1][0] = 9;
         assert!(b.solve().is_none());

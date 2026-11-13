@@ -213,15 +213,14 @@ fn run_cli(cli: &Cli, mut stdout: &mut impl Write, stderr: &mut impl Write) -> E
                             "{}x{} ({}x{} boxes)",
                             gpuz.size, gpuz.size, gpuz.box_rows, gpuz.box_cols
                         );
-                        for r in 0..gpuz.size {
-                            for c in 0..gpuz.size {
-                                let v = gpuz.cells[r][c];
+                        for row in gpuz.cells.iter().take(gpuz.size) {
+                            for (c, &v) in row.iter().enumerate().take(gpuz.size) {
                                 if v == 0 {
                                     let _ = write!(stdout, ".");
                                 } else {
                                     let _ = write!(stdout, "{v}");
                                 }
-                                if c < gpuz.size - 1 {
+                                if c + 1 < gpuz.size {
                                     let _ = write!(stdout, " ");
                                 }
                             }
@@ -242,10 +241,9 @@ fn run_cli(cli: &Cli, mut stdout: &mut impl Write, stderr: &mut impl Write) -> E
 fn print_board_to(w: &mut impl Write, b: &Board) {
     let line = "+-------+-------+-------+";
     let _ = writeln!(w, "{line}");
-    for r in 0..9 {
+    for (r, row) in b.0.iter().enumerate() {
         let _ = write!(w, "|");
-        for c in 0..9 {
-            let v = b.0[r][c];
+        for (c, &v) in row.iter().enumerate() {
             let ch = if v == 0 { '.' } else { (b'0' + v) as char };
             let sep = if (c + 1) % 3 == 0 { " |" } else { " " };
             let _ = write!(w, " {ch}{sep}");
