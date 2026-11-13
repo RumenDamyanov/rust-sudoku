@@ -78,9 +78,9 @@ impl Grid {
         for br in (0..s).step_by(self.box_rows) {
             for bc in (0..s).step_by(self.box_cols) {
                 let mut seen = vec![false; s + 1];
-                for r in br..br + self.box_rows {
-                    for c in bc..bc + self.box_cols {
-                        let v = self.cells[r][c] as usize;
+                for row in self.cells.iter().skip(br).take(self.box_rows) {
+                    for &cell in row.iter().skip(bc).take(self.box_cols) {
+                        let v = cell as usize;
                         if v != 0 {
                             if seen[v] {
                                 return Err(SudokuError::InvalidBoard);
@@ -188,9 +188,9 @@ impl Grid {
     }
 
     fn find_empty(&self, w: &Grid) -> Option<(usize, usize)> {
-        for r in 0..self.size {
-            for c in 0..self.size {
-                if w.cells[r][c] == 0 {
+        for (r, row) in w.cells.iter().enumerate() {
+            for (c, &cell) in row.iter().enumerate() {
+                if cell == 0 {
                     return Some((r, c));
                 }
             }
@@ -281,9 +281,9 @@ impl Grid {
 impl fmt::Display for Grid {
     /// Returns compact representation (`size*size` chars, `'0'` for empty).
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        for r in 0..self.size {
-            for c in 0..self.size {
-                write!(f, "{}", self.cells[r][c])?;
+        for row in &self.cells {
+            for &v in row {
+                write!(f, "{}", v)?;
             }
         }
         Ok(())
