@@ -8,7 +8,7 @@
 [![docs.rs](https://docs.rs/rumenx-sudoku/badge.svg)](https://docs.rs/rumenx-sudoku)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/rumendamyanov/rust-sudoku/blob/master/LICENSE.md)
 
-Fast, dependency-light Sudoku generator & solver for Rust — classic 9×9 plus configurable smaller grids — with guaranteed unique puzzles, deterministic seeding, CLI, and REST server.
+Fast, dependency-light Sudoku generator & solver for Rust — classic 9×9 plus configurable grids up to 25×25 — with guaranteed unique puzzles, deterministic seeding, CLI, and REST server.
 
 > Rust adaptation of [go-sudoku](https://github.com/RumenDamyanov/go-sudoku).
 
@@ -20,7 +20,7 @@ Fast, dependency-light Sudoku generator & solver for Rust — classic 9×9 plus 
 - 🧪 Comprehensive test suite
 - 🌐 Minimal REST server (generate / solve) via `axum`
 - 💻 CLI (generate / solve / hint / variable sizes) via `clap`
-- 🧱 General `Grid` API for 4×4, 6×6, 9×9 (and other ≤9 sizes with box layout)
+- 🧱 General `Grid` API for any size up to 25×25 where size = box rows × box columns (for example 4×4, 6×6, and 9×9)
 - 🔍 Hint helpers for both classic `Board` and general `Grid`
 
 ## Install
@@ -80,7 +80,7 @@ Clue counts are proportionally scaled for other grid sizes.
 
 ## Variable-Size Grids
 
-Supported configurations (any `size = box_rows × box_cols`):
+Supported configurations (any `size = box_rows × box_cols`, up to 25×25):
 
 | Grid | Box  | Example                  |
 |------|------|--------------------------|

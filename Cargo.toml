@@ -1,12 +1,12 @@
 [package]
 name = "rumenx-sudoku"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2024"
+rust-version = "1.85"
 authors = ["Rumen Damyanov <contact@rumenx.com>"]
 description = "Fast Sudoku generator & solver — classic 9×9 plus configurable grids — with unique puzzles, CLI, and REST server."
 license = "MIT"
 repository = "https://github.com/rumendamyanov/rust-sudoku"
-homepage = "https://github.com/rumendamyanov/rust-sudoku"
 documentation = "https://docs.rs/rumenx-sudoku"
 readme = "README.md"
 keywords = ["sudoku", "solver", "generator", "puzzle", "game"]
@@ -60,4 +60,3 @@ axum = "0.8"
 tower = { version = "0.5", features = ["util"] }
 tower-http = { version = "0.7", features = ["set-header"] }
 http-body-util = "0.1"
-hyper = "1"

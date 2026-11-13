@@ -5,9 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.1] - 2026-11-13
 
-## [1.0.0] - TBD
+### Changed
+
+- Require Rust 1.85 or newer. The Docker builder is `rust:1.100-alpine`.
+- Require `rand` 0.10 and `tower-http` 0.7.
+- Rewrite index loops so the crate builds cleanly with Rust 1.100 Clippy.
+
+### Fixed
+
+- Document that `Grid` accepts sizes up to 25×25, not only 9×9 and smaller.
+- Serve the REST router from `rumenx_sudoku::server` instead of an empty module.
+- Remove the unused `hyper` dev-dependency and the redundant `homepage` field.
+
+## [1.0.0] - 2026-02-21
 
 ### Added
 
